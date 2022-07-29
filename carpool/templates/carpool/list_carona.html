@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Minhas caronas{% endblock %}
+
+{% block content %}
+  {% include 'components/header.html' %}
+
+  <main class='container-fluid p-4'>
+    <div class='d-flex justify-content-between align-items-center mb-5'>
+      <h1 class="fs-1 mb-5 fw-normal">Caronas</h1>
+
+      <a href="{% url 'create_carona' %}" role="button" class='d-flex justify-content-center align-items-center btn btn-outline-secondary'>
+        Nova carona
+        <i class='bi bi-plus'></i>
+      </a>
+    </div>
+
+    {% if caronas %}
+    <div class='d-flex justify-content-start flex-wrap'>
+    {% for carona in caronas %}
+      <a href="{% url 'detail_carona' carona.id %}" class='text-body text-decoration-none'>
+        <div class='d-flex flex-column justify-content-between border rounded p-3 carona-card mb-3 me-auto'>
+          <div class='mb-3 pt-2'>
+            <h6 class='font-bold fs-5 text-center mb-1'>{{ carona }}</h6>
+
+            <div>
+              <div class='text-center'>{{ carona.diasStr }}</div>
+              <div class='font-light text-center'>{{ carona.horario }}</div>
+            </div>
+          </div>
+
+          <div class='d-flex justify-content-end'>
+            {% if carona.motorista == request.user.perfil %}
+            <a href="{% url 'edit_carona' carona.id %}">
+              <i class="bi bi-pencil-square icon-sm text-secondary"></i>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </a>
+    {% endfor %}  
+    </div>
+    {% else %}
+    <h3>Nenhuma carona encontrada.</h3>
+    {% endif %}
+
+  </main>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% comment %} <div class="modal fade" tabindex="-1" id="dialogModal"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-normal">Mensagem</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'send_message' carona=carona_id %}">
+          {% csrf_token %}
+          <div class="input-group input">
+            <textarea type="text" class='form-control' placeholder="{{ carona_id
+              }}"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+<div class="modal fade" tabindex="-1" id="dialogModal-{{carona_id}}"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-normal">Mensagem</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form method="POST" action="{% url 'userMessage' %}">
+          {% csrf_token %}
+
+          <div class="input-group input">
+            <textarea type="text" class='form-control' name='msg' id='msg'
+              placeholder="Mensagem"></textarea>
+            <input type="hidden" value="{{carona.id}}" name="caronaid"
+                  id="caronaid">
+            <input type="hidden" value="" name="usuarioChat" id="usuarioChat">
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

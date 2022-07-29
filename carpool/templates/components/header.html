@@ -1,0 +1,31 @@
+{% load static %}
+
+<header class='border-bottom'>
+  <nav class='navbar'>
+    <div class="container-fluid d-flex justify-content-between">
+      <a class="d-flex align-items-center navbar-brand font-bold text-body"
+        href="{% url 'index' %}">
+        <img class='me-2' src={% static 'carpool/assets/logo.svg' %} alt="Logo">
+        <span class='fs-4'>Carona Amiga</span>
+      </a>
+
+      <div class='d-flex align-items-center'>
+        <div class="dropdown">
+          <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" class='d-flex align-items-center text-decoration-none btn btn-outline-secondary'>
+            <div class='me-2 font-bold'>{{ request.user.username }}</div>
+            <i class="bi bi-person-circle icon-sm"></i>
+          </a>
+        
+          <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuLink">
+            {% if request.user.perfil.temCarro %}
+            <li><a class="dropdown-item" href="{% url 'create_carona' %}">Nova carona</a></li>
+            {% endif %}
+            <li><a class="dropdown-item" href="{% url 'userMessage' %}">Mensagens</a></li>
+            <li><a class="dropdown-item" href="{% url 'listGroups' %}">Caronas</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

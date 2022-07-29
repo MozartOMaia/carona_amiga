@@ -1,0 +1,31 @@
+<div class='d-flex my-5 justify-content-center'>
+  <form class='search-bar d-flex pe-0 ps-3 box-shadow' method="POST" action="{% url 'search' %}">
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="col-4 d-flex align-items-center">
+        <i class="bi bi-pin-map icon-sm icon-color me-2"></i>
+        <input class="border-0 w-100 outline-0 bg-transparent" type="search" name="origem" value="{{body.origem}}" placeholder="Saindo de" aria-label="Saindo de">
+      </div>
+
+      <div class="col-4 d-flex align-items-center">
+        <i class="bi bi-pin-map icon-sm icon-color me-2"></i>
+        <input class="border-0 w-100 outline-0 bg-transparent" type="search" name="destino" value="{{body.destino}}" placeholder="Indo para" aria-label="Indo para">
+      </div>
+
+      <div class='col d-flex p-2 align-items-center'>
+        <i class="bi bi-calendar-week icon-sm icon-color me-2"></i>
+        <input class='border-0 w-100 outline-0 bg-transparent' type="date" name="data" value="{{body.data}}" placeholder="Data"  aria-label="Data">
+      </div>
+
+      <div class='col d-flex p-2 align-items-center'>
+        <i class="bi bi-clock icon-sm icon-color me-2"></i>
+        <input class='border-0 w-100 outline-0 bg-transparent' type="time" name="horario" value="{{body.horario}}" placeholder="Horário" aria-label="Horário">
+      </div>
+    </div>
+
+    <button class='d-flex align-items-center justify-content-center px-3 btn btn-primary'>
+      <i class="bi bi-search icon-sm"></i>
+    </button>
+  </form>
+</div>

@@ -1,0 +1,151 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Criar carona{% endblock  %}
+
+{% block content %}
+  {% include 'components/header.html' %}
+
+  <main>
+    <div class="container-fluid p-4">
+      <h1 class='fs-1 mb-5 fw-normal'>Cadastrar carona</h1>
+
+      <form class='register' method="post" action="{% url 'create_carona' %}">
+      {% csrf_token %}
+        <div class='input d-flex flex-column'>
+          <label for="name" class='form-label'>Nome da carona</label>
+          <input type="text" name="name" id="name" class='form-control' required>
+        </div>
+
+        <fieldset class='my-4'>
+          <legend class='fs-3'>Saindo de</legend>
+
+          <div class='input d-flex flex-column'>
+            <label for="pickup-from-state" class='form-label'>Estado</label>
+            <input type="text" name="pickup-from-state" id="pickup-from-state" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="pickup-from-city" class='form-label'>Cidade</label>
+            <input type="text" name="pickup-from-city" id="pickup-from-city" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="pickup-from-district" class='form-label'>Bairro</label>
+            <input type="text" name="pickup-from-district" id="pickup-from-district" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="pickup-from-street" class='form-label'>Rua</label>
+            <input type="text" name="pickup-from-street" id="pickup-from-street" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="pickup-from-number" class='form-label'>Número</label>
+            <input type="text" name="pickup-from-number" id="pickup-from-number" class='form-control' required>
+          </div>
+        </fieldset>
+        
+        <fieldset class='my-4'>
+          <legend class='fs-3'>Indo para</legend>
+
+          <div class='input d-flex flex-column'>
+            <label for="destination-state" class='form-label'>Estado</label>
+            <input type="text" name="destination-state" id="destination-state" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="destination-city" class='form-label'>Cidade</label>
+            <input type="text" name="destination-city" id="destination-city" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="destination-district" class='form-label'>Bairro</label>
+            <input type="text" name="destination-district" id="destination-district" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="destination-street" class='form-label'>Rua</label>
+            <input type="text" name="destination-street" id="destination-street" class='form-control' required>
+          </div>
+          <div class='input d-flex flex-column'>
+            <label for="destination-number" class='form-label'>Número</label>
+            <input type="text" name="destination-number" id="destination-number" class='form-control' required>
+          </div>
+        </fieldset>
+
+        <div class='input d-flex flex-column'>
+          <span>Dias</span>
+          
+          <div class="form-check">
+            <label class="form-check-label" for="monday">
+              Segunda-feira
+            </label>
+            <input type="hidden" value="0" name="monday" id="monday">
+            <input class="form-check-input" type="checkbox" value="1" name="monday" id="monday">
+
+          </div>
+
+          <div class="form-check">
+            <label class="form-check-label" for="tuesday">
+              Terça-feira
+            </label>
+            <input type="hidden" value="0" name="tuesday" id="tuesday">
+            <input class="form-check-input" type="checkbox" value="2" name="tuesday" id="tuesday">
+          </div>
+
+          <div class="form-check">
+            <label class="form-check-label" for="wednesday">
+              Quarta-feira
+            </label>
+            <input type="hidden" value="0" name="wednesday" id="wednesday">
+            <input class="form-check-input" type="checkbox" value="4" name="wednesday" id="wednesday">
+          </div>
+          
+          <div class="form-check">
+            <label class="form-check-label" for="thursday">
+              Quinta-feira
+            </label>
+            <input type="hidden" value="0" name="thursday" id="thursday">
+            <input class="form-check-input" type="checkbox" value="8" name="thursday" id="thursday">
+          </div>
+
+          <div class="form-check">
+            <label class="form-check-label" for="friday">
+              Sexta-feira
+            </label>
+            <input type="hidden" value="0" name="friday" id="friday">
+            <input class="form-check-input" type="checkbox" value="16" name="friday" id="friday">
+          </div>
+
+          <div class="form-check">
+            <label class="form-check-label" for="saturday">
+              Sábado
+            </label>
+            <input type="hidden" value="0" name="saturday" id="saturday">
+            <input class="form-check-input" type="checkbox" value="32" name="saturday" id="saturday">
+          </div>
+
+          <div class="form-check">
+            <label class="form-check-label" for="sunday">
+              Domingo
+            </label>
+            <input type="hidden" value="0" name="sunday" id="sunday">
+            <input class="form-check-input" type="checkbox" value="64" name="sunday" id="sunday">
+          </div>
+        </div>
+
+        <div class='input d-flex flex-column'>
+          <label for="time" class='form-label'>Horário</label>
+          <input type="time" name="time" id="time" class='form-control' required>
+        </div>
+
+        <div class='input d-flex flex-column'>
+          <label for="destination-state" class='form-label'>Vagas</label>
+          <input type="number" name="vagas" class='form-control' min="2" required>
+        </div>
+        
+        <div class='input d-flex flex-column'>
+          <label for="description" class='form-label'>Descrição (opcional)</label>
+          <textarea name="description" id="description" rows="5" class='form-control'></textarea>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary w-100 mt-3">Cadastrar</button>
+      </form>
+    </div>
+  </main>
+{% endblock  %}

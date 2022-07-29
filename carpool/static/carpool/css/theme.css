@@ -1,0 +1,85 @@
+:root {
+  --primary-color: #4D65F1;
+  --primary-color-hover: #404e9b;
+  --primary-color-disabled: #5662a7;
+  --text-color-dark: #fff;
+  --text-color-light: #474747;
+}
+/* Body */
+
+body {
+  color: var(--text-color-light);
+}
+
+.text-body {
+  color: var(--text-color-light) !important;
+}
+
+/* Primary button */
+
+.btn-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.btn-primary:disabled {
+  background-color: var(--primary-color-disabled);
+  border-color: var(--primary-color-disabled);
+}
+
+/* Primary outline button */
+
+.btn-outline-primary {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: var(--text-color-dark);
+}
+
+/* Secondary outline button */
+
+.btn-outline-secondary {
+  border-color: #ccc;
+  color: var(--text-color-light);
+}
+
+.btn-outline-secondary:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+/* Checkbox */
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Chat */
+
+li.active-chat::before {
+  background-color: var(--primary-color);
+}
+
+.chat-message-sent {
+  background-color: var(--primary-color);
+}
+
+/* Dropdown */
+
+.dropdown-item {
+  color: var(--text-color-light);
+}
+
+/* Background */
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}

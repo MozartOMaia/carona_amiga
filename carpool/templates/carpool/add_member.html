@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Adicionar membro{% endblock %}
+
+{% block content %}
+{% include 'components/header.html' %}
+
+<div class="container-fluid p-4">
+  <h1 class='fs-1 mb-5 fw-normal'>Adicionar membros</h1>
+
+  <form method="POST" action="{% url 'add_member' %}">
+    {% csrf_token %}
+
+    <div class='input d-flex flex-column w-50'>
+      <h5 class='mb-1'>Usuários</h5>
+
+      {% if usuarios %}
+      {% for usuario in usuarios %}
+      <div class="form-check">
+        <label class="form-check-label fs-6" for="user{{usuario.id}}">
+          {{ usuario.nomeUsuario }} ({{usuario.nome}})
+        </label>
+        <input class="form-check-input" type="checkbox" name="{{usuario.nomeUsuario}}" id="user{{usuario.id}}">
+      </div>
+      {% endfor %}
+
+      {% else %}
+      <p class='mt-2'>Nenhum usuário disponível para ser adicionado.</p>
+      {% endif %}
+    </div>
+
+    <input type="hidden" name="carona_id" value="{{carona.id}}">
+
+    <button type="submit" class='btn btn-primary' 
+      {% if not usuarios %}
+        disabled
+      {% endif %}
+    >Adicionar</button>
+  </form>
+</div>
+
+{% endblock %}

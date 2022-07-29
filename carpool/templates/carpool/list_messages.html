@@ -1,0 +1,123 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Mensagens{% endblock  %}
+
+{% block content %}
+{% include 'components/header.html' %}
+
+<main class='container-fluid p-4'>
+  <h1 class='fs-1 mb-5 fw-normal'>Mensagens</h1>
+
+  {% if not usuarios %}
+  <p class='fs-3'>Nenhuma mensagem cadastrada.</p>
+  {% else %}
+  <div class='d-flex border rounded w-100'>
+    <aside class='w-30'>
+      <ul class="list-group">
+        {% if usuarios %}
+          {% for usuario in usuarios %}
+            <a href="{% url 'listMessages' usuario.id %}" class='text-decoration-none text-body'>
+              {% if usuario == activeChatUser %}
+                <li class="list-group-item list-group-item-action bg-transparent border-0 ps-4 py-3 active-chat">
+              {% else %}
+                <li class="list-group-item list-group-item-action bg-transparent border-0 ps-4 py-3">
+              {% endif %}
+                <div class='mb-1'>
+                  <div>
+                    <h6>
+                      {{usuario.nome}}
+                    </h6>
+                    <span class='font-light font-small'>
+                      @{{usuario.nomeUsuario}}
+                    </span>
+                  </div>
+                </div>
+                
+                <div>
+                  <p class='mb-0 font-light font-small'>
+                      {{ usuario.mensagemRecente | truncatechars_html:50 }}
+                  </p>
+                </div>
+              </li>
+            </a>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </aside>
+
+    <div class='flex-grow-1'>
+      <div class='d-flex flex-column h-100'>
+        {% if mensagensActive %}
+        <header class='d-flex justify-content-between align-items-center p-3 border-bottom'>
+          <h5 class='fw-normal'>{{ mensagensActive.first.carona }}</h5>
+
+          {% if mensagensActive.first.carona.motorista == usuarioLogado %}
+          <a href="{% url 'add_member_template' mensagensActive.first.carona.id %}" role="button" class='btn btn-outline-secondary'>Adicionar membro</a>
+          {% endif %}
+        </header>
+
+        <main class='ps-3 pe-2 h-100 d-flex flex-column py-3'>
+          <div class='chat d-flex flex-column flex-grow-1 mb-2 pe-2'>
+            <div class='d-flex flex-column mt-auto'>
+              {% for mensagem in mensagensActive %}
+              {% if mensagem.remetente == usuarioLogado %}  
+              <div class='d-flex flex-column ms-auto mb-3'>
+                <div class='d-flex justify-content-between'>
+                  <span class='font-small me-5'>Você</span>
+                  <span class='font-small'>{{mensagem.diaHora | date:'H:i d-m-Y'}}</span>
+                </div>
+                <div class='d-flex p-2 px-3 text-white chat-message-sent'>
+                  <p class='mb-0 pt-1 flex-shrink-1'>
+                    {{mensagem}}
+                  </p>
+                </div>
+              </div>
+              {% else %}
+              <div class='d-flex flex-column me-auto mb-3'>
+                <div class='d-flex justify-content-between flex-row-reverse'>
+                  <span class='font-small ms-5'>{{mensagem.remetente}}</span>
+                  <span class='font-small'>{{mensagem.diaHora | date:'H:i d-m-Y'}}</span>
+                </div>
+                <div class='d-flex p-2 px-3 text-body chat-message-received'>
+                  <p class='mb-0 pt-1 flex-shrink-1'>
+                    {{mensagem}}
+                  </p>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+              <form method="POST" action="{% url 'userMessage' %}" class='form-control border-2 d-flex p-0'>
+                  {% csrf_token %}
+                  <input type="text" name='msg' id='msg' class='border-0 outline-0 flex-grow-1 p-2'>
+                  <input type="hidden" value="{{mensagensActive.first.carona.id}}" name="caronaid" id="caronaid">
+                  {% if mensagensActive.first.remetente == usuarioLogado %}
+                  <input type="hidden" value="{{mensagensActive.first.destinatario.id}}" name="usuarioChat" id="usuarioChat">
+                  {% else %}
+                  <input type="hidden" value="{{mensagensActive.first.remetente.id}}" name="usuarioChat" id="usuarioChat">
+                  {% endif %}
+                  <button type="submit" class="bi bi-send icon-sm d-flex justify-content-center align-items-center border-0 border-start border-2 btn btn-outline-secondary"></i>
+              </form>
+
+          </div>
+        </main>
+        {% else %}
+        <main class='ps-3 pe-2 h-100 d-flex flex-column py-3'>
+          <div class='chat d-flex flex-grow-1 flex-column mb-2 pe-2'>
+            <div class='d-flex ms-auto me-auto mt-auto mb-2 bg-primary rounded-pill'>
+              <span class='text-white py-2 px-3 fs-6'>Selecione uma conversa</span>
+            </div>
+          </div>
+        </main>
+        {% endif %}
+      </div>  
+    </div>
+
+
+
+  </div>
+  {% endif %}
+</main>
+
+{% endblock %}

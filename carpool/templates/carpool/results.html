@@ -1,0 +1,117 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Resultados{% endblock %}
+
+{% block content %}
+{% include 'components/header.html' %}
+
+<main>
+  <div class='container px-3 my-4'>
+    {% include 'components/search_bar.html' %}
+
+    {% if request.method != 'GET' %}
+    <div class='container-fluid d-flex align-items-end mb-3'>
+      <h2 class='fw-normal fs-3 m-0 me-1'>Resultados</h2>
+      {% if length %}
+      <span class='fw-light fs-5 secondary-text-color'>({{ length }})</span>
+      {% else %}
+      <span class='fw-light fs-5 secondary-text-color'>(0)</span>
+      {% endif %}
+    </div>
+
+    <div class="container">
+      {% if error %}
+      <p class='align-center'>{{error}}</p>
+      {% else %}
+      {% if caronas %}
+      {% for carona in caronas %}
+      
+      <div class='d-flex py-3 px-5 justify-content-between align-items-center
+        shadow-sm border rounded mb-4 c-pointer'
+        id="resultCard">
+        <a href="{% url 'detail_carona' carona.id %}" style="text-decoration:none" class='d-flex'>
+          <div class='profile rounded-circle me-3'>
+            <img src="{% static carona.motorista.avatar %}" width="100"
+              alt="Perfil">
+          </div>
+
+          <div class='d-flex flex-column'>
+            <div class='d-flex mb-2'>
+              <span class='driver-name primary-text-color me-4'>{{carona.motorista.nome}}</span>
+              <span class='primary-text-color'>
+                <i class="bi bi-star-fill"></i>
+                {{ carona.motorista.avaliacao }}
+              </span>
+            </div>
+
+            <div class='d-flex mb-2'>
+              <div class='me-4'>
+                <span class='primary-text-color'>Saindo de:</span>
+                <span class='secondary-text-color'>{{carona.enderecoSaida.bairro}}</span>
+              </div>
+
+              <div class='me-4'>
+                <span class='primary-text-color'>Dias:</span>
+                <span class='secondary-text-color'>{{carona.diaStr}}</span>
+              </div>
+
+              <div class='me-4'>
+                <span class='primary-text-color'>Vagas disponível:</span>
+                <span class='secondary-text-color'>{{carona.vagas}}</span>
+              </div>
+            </div>
+
+            <div class='d-flex'>
+              <div class='me-4'>
+                <span class='primary-text-color'>Horário:</span>
+                <span class='secondary-text-color'>
+                  {{carona.horario | time:"H:i"}}
+                </span>
+              </div>
+
+              <div class='me-4'>
+                <span class='primary-text-color'>Indo para:</span>
+                <span class='secondary-text-color'>{{carona.enderecoDestino.bairro}}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#dialogModal-{{carona.id}}"
+          data-bs-driver="{{carona.motorista.nomeUsuario}}">Estou interessado</button>
+      </div>
+
+      {% include 'components/message-modal.html' with carona_id=carona.id %}
+
+      {% endfor %}
+      {% else %}
+      <p>Nenhuma carona encontrada</p>
+      {% endif %}
+      {% endif %}
+
+      {% comment %} <div class='d-flex justify-content-end'>
+        <div>
+          <span class='c-pointer page p-1 rounded me-1'>
+            <i class="bi bi-chevron-left"></i>
+          </span>
+
+          {% for i in pages %}
+          <span class='c-pointer page py-1 px-2 rounded'>{{ i }}</span>
+          {% endfor %}
+
+          <span class='c-pointer page p-1 rounded me-1'>
+            <i class="bi bi-chevron-right"></i>
+          </span>
+        </div>
+      </div> {% endcomment %}
+    </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'carpool/modal.js' %}"></script>
+{% endblock %}

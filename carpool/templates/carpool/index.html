@@ -1,0 +1,100 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Página inicial - Carona Amiga{% endblock %}
+
+{% block content %}
+{% include 'components/header.html' %}
+<main class='homepage px-3 mb-5'>
+  <div class="container-fluid d-flex justify-content-center my-5">
+    {% include 'components/search_bar.html' %}
+  </div>
+
+  <div class='d-flex mb-3'>
+    <section class='w-50 me-5'>
+      <h5 class='mb-4'>Caronas criadas recentemente</h5>
+
+      <div class="d-flex justify-content-between flex-wrap">
+        {% for carona in caronas %}
+
+        <a class="card mb-4 border-0 shadow-sm rounded-3 text-decoration-none text-body" href="{% url 'detail_carona' carona.id %}">
+          <div class="card-body">
+            <div class="card-title mb-0 font-bold font-normal">{{ carona.nome }}</div>
+            <span class='font-small font-light'>{{ carona.motorista.nome }}</span>
+            <div class="card-text my-3">
+              <div>Saindo: {{ carona.enderecoSaida.bairro }}</div>
+              <div>Destino: {{ carona.enderecoDestino.bairro }}</div>
+            </div>
+          </div>
+        </a>
+
+        {% include 'components/message-modal.html' with carona_id=carona.id %}
+
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class='w-50'>
+      <h5 class='mb-4'>Motoristas novos</h5>
+
+      <div class="d-flex justify-content-between flex-wrap">
+        {% for motorista in motoristas %}
+
+        <div class="card border-0 mb-4 shadow-sm rounded-3">
+          <div class="card-body d-flex">
+            <div class="d-flex justify-content-between flex-column w-100">
+
+            <div class='d-flex justify-content-between mb-4'>
+              <div>
+                <div class="card-title font-bold font-normal mb-0">
+                  {{ motorista.nome }}
+                </div>
+                <span class='font-small primary-text-color'>
+                  <i class="bi bi-star-fill"></i>
+                  {{ motorista.avaliacao }}
+                </span>
+              </div>
+
+              <div class='profile-small rounded-circle'>
+                <img src="{% static motorista.avatar %}" width="50"
+                  alt="Perfil">
+              </div>
+            </div>
+
+            <ul class="list-group">
+              {% for carona in motorista.caronasRecentes %}
+              <a class="list-group-item list-group-item-action p-1 border-0 mb-2 text-body" href="{% url 'detail_carona' carona.id %}">
+                <div class="d-flex justify-content-between
+                  align-items-center">
+                  <div class='me-4'>
+                    {{ carona.nome }}
+                  </div>
+                  <button
+                    type="button" class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#dialogModal-{{carona.id}}"
+                    data-bs-driver="{{carona.motorista.nomeUsuario}}">
+                    <i class="bi bi-chat-fill"></i>
+                  </button>
+                </div>
+              </a>
+
+              {% include 'components/message-modal.html' with carona_id=carona.id %}
+
+              {% endfor %}
+
+            </ul>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+
+  <div class='d-flex justify-content-center'>
+    <a href="{% url 'search' %}" class='btn btn-outline-primary'>Ver mais</a>
+  </div>
+</main>
+{% endblock %}

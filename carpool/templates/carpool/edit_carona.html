@@ -1,0 +1,204 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Editar carona{% endblock %}
+
+{% block content %}
+{% include 'components/header.html' %}
+
+<main>
+  <div class="container-fluid p-4">
+    <h1 class='fs-1 mb-5 fw-normal'>Editar carona</h1>
+
+    <form class='register' method="post" action="edit_carona">
+      {% csrf_token %}
+      <div class='input d-flex flex-column'>
+        <label for="name" class='form-label'>Nome da carona</label>
+        <input type="text" name="name" id="name" value="{{ carona.nome }}" class='form-control' required>
+      </div>
+
+      <fieldset class='my-4'>
+        <legend class='fs-3'>Saindo de</legend>
+
+        <div class='input d-flex flex-column'>
+          <label for="pickup-from-state" class='form-label'>Estado</label>
+          <input type="text" name="pickup-from-state" id="pickup-from-state" value="{{ carona.enderecoSaida.estado }}"
+            class='form-control' required>
+        </div>
+        <div class='input d-flex flex-column'>
+          <label for="pickup-from-city" class='form-label'>Cidade</label>
+          <input type="text" name="pickup-from-city" id="pickup-from-city" value="{{ carona.enderecoSaida.cidade }}"
+            class='form-control' required>
+        </div>
+        <div class='input d-flex flex-column'>
+          <label for="pickup-from-district" class='form-label'>Bairro</label>
+          <input type="text" name="pickup-from-district" id="pickup-from-district"
+            value="{{ carona.enderecoSaida.bairro }}" class='form-control' required>
+        </div>
+        <div class='input d-flex flex-column'>
+          <label for="pickup-from-street" class='form-label'>Rua</label>
+          <input type="text" name="pickup-from-street" id="pickup-from-street" value="{{ carona.enderecoSaida.rua }}"
+            class='form-control' required>
+        </div>
+        <div class='input d-flex flex-column'>
+          <label for="pickup-from-number" class='form-label'>Número</label>
+          <input type="text" name="pickup-from-number" id="pickup-from-number" value="{{ carona.enderecoSaida.numero }}"
+            class='form-control' required>
+        </div>
+      </fieldset>
+
+      <fieldset class='my-4'>
+        <legend class='fs-3'>Indo para</legend>
+
+        <div class='input d-flex flex-column'>
+          <label for="destination-state" class='form-label'>Estado</label>
+          <input type="text" name="destination-state" id="destination-state" value="{{ carona.enderecoDestino.estado }}"
+            class='form-control' required>
+        </div>
+
+        <div class='input d-flex flex-column'>
+          <label for="destination-city" class='form-label'>Cidade</label>
+          <input type="text" name="destination-city" id="destination-city" value="{{ carona.enderecoDestino.cidade }}"
+            class='form-control' required>
+        </div>
+
+        <div class='input d-flex flex-column'>
+          <label for="destination-district" class='form-label'>Bairro</label>
+          <input type="text" name="destination-district" id="destination-district"
+            value="{{ carona.enderecoDestino.bairro }}" class='form-control' required>
+        </div>
+
+        <div class='input d-flex flex-column'>
+          <label for="destination-street" class='form-label'>Rua</label>
+          <input type="text" name="destination-street" id="destination-street" value="{{ carona.enderecoDestino.rua }}"
+            class='form-control' required>
+        </div>
+
+        <div class='input d-flex flex-column'>
+          <label for="destination-number" class='form-label'>Número</label>
+          <input type="text" name="destination-number" id="destination-number"
+            value="{{ carona.enderecoDestino.numero }}" class='form-control' required>
+        </div>
+      </fieldset>
+
+      <div class='input d-flex flex-column'>
+        <span>Dias</span>
+        <div class="form-check">
+          <label class="form-check-label" for="monday">
+            Segunda-feira
+          </label>
+          {% if days.6 == '1' %}
+          <input type="hidden" value="0" name="monday" id="monday">
+          <input class="form-check-input" type="checkbox" value="1" name="monday" id="monday" checked>
+          {% else %}
+          <input type="hidden" value="0" name="monday" id="monday">
+          <input class="form-check-input" type="checkbox" value="1" name="monday" id="monday">
+          {% endif %}
+
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="tuesday">
+            Terça-feira
+          </label>
+          {% if days.5 == '1' %}
+          <input type="hidden" value="0" name="tuesday" id="tuesday">
+          <input class="form-check-input" type="checkbox" value="2" name="tuesday" id="tuesday" checked>
+          {% else %}
+          <input type="hidden" value="0" name="tuesday" id="tuesday">
+          <input class="form-check-input" type="checkbox" value="2" name="tuesday" id="tuesday">
+          {% endif %}
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="wednesday">
+            Quarta-feira
+          </label>
+          {% if days.4 == '1' %}
+          <input type="hidden" value="0" name="wednesday" id="wednesday">
+          <input class="form-check-input" type="checkbox" value="4" name="wednesday" id="wednesday" checked>
+          {% else %}
+          <input type="hidden" value="0" name="wednesday" id="wednesday">
+          <input class="form-check-input" type="checkbox" value="4" name="wednesday" id="wednesday">
+          {% endif %}
+
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="thursday">
+            Quinta-feira
+          </label>
+          {% if days.3 == '1' %}
+          <input type="hidden" value="0" name="thursday" id="thursday">
+          <input class="form-check-input" type="checkbox" value="8" name="thursday" id="thursday" checked>
+          {% else %}
+          <input type="hidden" value="0" name="thursday" id="thursday">
+          <input class="form-check-input" type="checkbox" value="8" name="thursday" id="thursday">
+          {% endif %}
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="friday">
+            Sexta-feira
+          </label>
+          {% if days.2 == '1' %}
+          <input type="hidden" value="0" name="friday" id="friday">
+          <input class="form-check-input" type="checkbox" value="16" name="friday" id="friday" checked>
+          {% else %}
+          <input type="hidden" value="0" name="friday" id="friday">
+          <input class="form-check-input" type="checkbox" value="16" name="friday" id="friday">
+          {% endif %}
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="saturday">
+            Sábado
+          </label>
+          {% if days.1 == '1' %}
+          <input type="hidden" value="0" name="saturday" id="saturday">
+          <input class="form-check-input" type="checkbox" value="32" name="saturday" id="saturday" checked>
+          {% else %}
+          <input type="hidden" value="0" name="saturday" id="saturday">
+          <input class="form-check-input" type="checkbox" value="32" name="saturday" id="saturday">
+          {% endif %}
+        </div>
+
+        <div class="form-check">
+          <label class="form-check-label" for="sunday">
+            Domingo
+          </label>
+          {% if days.0 == '1' %}
+          <input type="hidden" value="0" name="sunday" id="sunday">
+          <input class="form-check-input" type="checkbox" value="64" name="sunday" id="sunday" checked>
+          {% else %}
+          <input type="hidden" value="0" name="sunday" id="sunday">
+          <input class="form-check-input" type="checkbox" value="64" name="sunday" id="sunday">
+          {% endif %}
+        </div>
+      </div>
+
+      <div class='input d-flex flex-column'>
+        <label for="time" class='form-label'>Horário</label>
+        <input type="time" name="time" id="time" value="{{ carona.horario | time:'H:i' }}" class='form-control'
+          required>
+      </div>
+      
+      <div class='input d-flex flex-column'>
+        <label for="destination-state" class='form-label'>Vagas</label>
+        <input type="number" name="vagas" value="{{ carona.vagas }}" class='form-control' min="0" required>
+      </div>
+
+      <div class='input d-flex flex-column'>
+        <label for="description" class='form-label'>Descrição (opcional)</label>
+        <textarea name="description" id="description" rows="5" class='form-control'>{{ carona.descricao }}</textarea>
+      </div>
+
+
+      <div class="d-flex mt-3">
+        <button type="button" class="btn btn-danger w-100 me-3">Apagar</button>
+        <button type="submit" class="btn btn-primary w-100">Atualizar</button>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

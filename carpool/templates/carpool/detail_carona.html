@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block page_title %}Detalhes de {{ carona.nome }}{% endblock %}
+
+{% block content %}
+  {% include 'components/header.html' %}
+
+  <main>
+    <div class='container-fluid p-4 pb-5'>
+      <h1 class='fs-1 mb-5 fw-normal'>{{carona.nome}}</h1>
+
+      <div class='d-inline-block details'>
+        <div class='d-flex flex-column border rounded'>
+          {% if carona.motorista != usuarioLogado and usuarioLogado != carona.passageiros.first %}
+          <div class="p-3 border-bottom">
+            <button type="button" class='btn btn-outline-secondary'
+                    data-bs-toggle="modal"
+                    data-bs-target="#dialogModal-{{carona.id}}"
+                    >Estou interessado</button>
+            {% include 'components/message-modal.html' with carona_id=carona.id %}
+            
+          </div>
+          {% endif %}
+  
+          <div class='p-3'>
+            <section class="mb-4">
+              <h5 class='fw-normal mb-2'>Motorista</h5>
+  
+              <div class='mb-2'>
+                <span>Nome:</span>
+                <span class='font-light'>{{ carona.motorista.nome }}</span>
+              </div>
+            </section>
+  
+            <section class='mb-4'>
+              <h5 class='fw-normal mb-2'>Saindo de</h5>
+  
+              <div class='mb-2'>
+                <span>Cidade:</span>
+                <span class='font-light'>{{ carona.enderecoSaida.cidade }}</span>
+              </div>
+  
+              <div class='mb-2'>
+                <span>Bairro:</span>
+                <span class='font-light'>{{ carona.enderecoSaida.bairro }}</span>
+              </div>
+            </section>
+  
+            <section class='mb-4'>
+              <h5 class="fw-normal mb-2">Indo para</h5>
+  
+              <div class='mb-2'>
+                <span>Cidade:</span>
+                <span class='font-light'>{{ carona.enderecoDestino.cidade }}</span>
+              </div>
+  
+              <div class='mb-2'>
+                <span>Bairro:</span>
+                <span class='font-light'>{{ carona.enderecoDestino.bairro}}</span>
+              </div>
+            </section>
+  
+            <section class='mb-4'>
+              <h5 class='fw-normal mb-2'>Detalhes</h5>
+  
+              <div class='mb-2'>
+                <span>Horário:</span>
+                <span class='font-light'>{{ carona.horario }}</span>
+              </div>
+  
+              <div class='mb-2'>
+                <span>Vagas:</span>
+                <span class='font-light'>{{ carona.vagas }} vagas ({{ carona.vagas }}/{{ vagas_total }})</span>
+              </div>
+  
+              <div class='mb-2'>
+                <span>Dias da semana:</span>
+                <span class='font-light'>{{ dias }}</span>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
